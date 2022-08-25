@@ -3,6 +3,7 @@ import BigNumber from "bignumber.js";
 
 import {WalletManagerClient} from '../src/WalletManagerClient';
 import { GetAddressReqeust } from '../src/entities/GetAddressRequest';
+import { expect } from 'chai';
 
 const clientConfig = CONFIG.clientConfig;
 const { privateKey } = CONFIG.identity;
@@ -21,8 +22,12 @@ describe("Test Access API", async function () {
             client_id: new Date().getTime().toFixed()
         };
 
-        const resposne = await client.getAddress(request);
+        const response = await client.getAddress(request);
+        console.info(JSON.stringify(response));
 
-        console.info(JSON.stringify(resposne));
+        expect(response.result).to.be.not.undefined;
+        expect(response.result).to.be.not.null;
+        expect(response.result).is.an("string");
+
     });
 });
