@@ -7,14 +7,14 @@ export interface WithdrawOrder{
     amount: BigNumber;
     decimals: number;
     to_address: string;
-
+    client_data: unknown;
  }
 
 export interface BatchWithdrawRequest{
 
     merchant_id:BigNumber;
     chain_type: ChainType;
-    chain_id: number;
+    chain_id: BigNumber;
     asset_name: string;
     orders:WithdrawOrder[];
 
