@@ -7,10 +7,10 @@ export interface BatchSweepRequest {
     chain_type: ChainType
     chain_id: BigNumber
     asset_name: string
-    threshold: string
+    threshold: BigNumber
     decimals: number
     gether_address: string
     invoker_address: string
-    client_data: unknown;
+    client_data?: unknown;
     preview: boolean;
 }

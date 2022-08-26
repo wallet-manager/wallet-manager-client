@@ -9,9 +9,9 @@ export interface SweepRecord {
     decimals: number;
 }
 
-export interface BatchSweepResponse {
+export interface BatchSweepResult {
 
-    batch_id: BigNumber
+    batch_id: string|number
     sweep_records: SweepRecord[]
     request_time: number
 

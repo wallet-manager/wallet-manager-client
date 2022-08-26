@@ -6,16 +6,16 @@ import { GetDepositByHashRequest } from './entities/getDepositByHashRequest';
 import { GetWithdrawByOrderIdRequest } from './entities/getWithdrawByOrderIdRequest';
 import { GetWithdrawByBatchIdRequest } from './entities/getWithdrawByBatchIdRequest';
 
-import { GetAddressResponse } from './entities/GetAddressResponse';
+import { GetAddressResult } from './entities/GetAddressResult';
 
 import { GetAddressReqeust } from "./entities/GetAddressRequest";
 
 
 import { BatchWithdrawRequest} from "./entities/BatchWithdrawRequest";
-import { BatchWithdrawResponse } from './entities/BatchWithdrawResponse';
+import { BatchWithdrawResult } from './entities/BatchWithdrawResult';
 
 import { BatchSweepRequest } from './entities/BatchSweepRequest';
-import { BatchSweepResponse } from './entities/BatchSweepResponse';
+import { BatchSweepResult } from './entities/BatchSweepResult';
 
 import { AxiosInstance } from 'axios';
 
@@ -28,17 +28,17 @@ export class WalletManagerClient{
         this.instance = utils.createAxiosInstance(clientConfig.baseURL, clientConfig.contentTypeJson);
     }
 
-    async getAddress(request:GetAddressReqeust):Promise<Response<GetAddressResponse>>{
+    async getAddress(request:GetAddressReqeust):Promise<Response<GetAddressResult>>{
         const response = await this.instance.post("/get_address", request);
         return response.data;
     }
 
-    async batchWithdraw(request:BatchWithdrawRequest):Promise<Response<BatchWithdrawResponse>>{
+    async batchWithdraw(request:BatchWithdrawRequest):Promise<Response<BatchWithdrawResult>>{
         const response = await this.instance.post("/batch_withdraw", request);
         return response.data;
     }
 
-    async batchSweep(request:BatchSweepRequest):Promise<Response<BatchSweepResponse>>{
+    async batchSweep(request:BatchSweepRequest):Promise<Response<BatchSweepResult>>{
         const response = await this.instance.post("/batch_sweep", request);
         return response.data;
     }
