@@ -1,15 +1,21 @@
 import { WalletManagerUtils} from 'wallet-manager-client-utils';
 import { Response} from 'wallet-manager-client-utils/dist/src/entities/Response';
 import { ClientConfig } from 'wallet-manager-client-utils/dist/src/entities/Config'
-import { GetDepositByAddressRequest } from './entities/GetDepositByAddressRequest';
-import { GetDepositByHashRequest } from './entities/getDepositByHashRequest';
-import { GetWithdrawByOrderIdRequest } from './entities/getWithdrawByOrderIdRequest';
-import { GetWithdrawByBatchIdRequest } from './entities/getWithdrawByBatchIdRequest';
 
-import { GetAddressResult } from './entities/GetAddressResult';
+import { GetDepositByAddressRequest } from './entities/GetDepositByAddressRequest';
+import { GetDepositByAddressResult } from './entities/GetDepositByAddressResult';
+
+import { GetDepositByHashRequest } from './entities/GetDepositByHashRequest';
+import { GetDepositByHashResult } from './entities/GetDepositByHashResult';
+
+import { GetWithdrawByOrderIdRequest } from './entities/GetWithdrawByOrderIdRequest';
+import { Operation } from './entities/Operation';
+
+import { GetWithdrawByBatchIdRequest } from './entities/GetWithdrawByBatchIdRequest';
+import { OperationBatch } from './entities/OperationBatch';
 
 import { GetAddressReqeust } from "./entities/GetAddressRequest";
-
+import { GetAddressResult } from './entities/GetAddressResult';
 
 import { BatchWithdrawRequest} from "./entities/BatchWithdrawRequest";
 import { BatchWithdrawResult } from './entities/BatchWithdrawResult';
@@ -43,7 +49,7 @@ export class WalletManagerClient{
         return response.data;
     }
 
-    async getDepositByAddress(request:GetDepositByAddressRequest):Promise<Response<unknown>>{
+    async getDepositByAddress(request:GetDepositByAddressRequest):Promise<Response<GetDepositByAddressResult>>{
         const {chain_type, chain_id, address, asset_name} = request;
         const response = await this.instance.get(
                 `/${chain_type}/${chain_id}/transfer/addr/${address}/deposit/${asset_name}`
@@ -51,7 +57,7 @@ export class WalletManagerClient{
         return response.data;
     }
 
-    async getDepositByHash(request:GetDepositByHashRequest):Promise<Response<unknown>>{
+    async getDepositByHash(request:GetDepositByHashRequest):Promise<Response<GetDepositByHashResult>>{
         const {chain_type, chain_id, tx_hash} = request;
         const response = await this.instance.get(
                 `/${chain_type}/${chain_id}/transfer/hash/${tx_hash}/deposit`
@@ -59,13 +65,13 @@ export class WalletManagerClient{
         return response.data;
     }
 
-    async getWithdrawByOrderId(request:GetWithdrawByOrderIdRequest):Promise<Response<unknown>>{
+    async getWithdrawByOrderId(request:GetWithdrawByOrderIdRequest):Promise<Response<Operation>>{
         const response = await this.instance.get(`/withdraw/order/${request.merchant_order_id}`);
         return response.data;
     }
 
 
-    async getWithdrawByBatchId(request:GetWithdrawByBatchIdRequest):Promise<Response<unknown>>{
+    async getWithdrawByBatchId(request:GetWithdrawByBatchIdRequest):Promise<Response<OperationBatch>>{
         const response = await this.instance.get(`/withdraw/batch/${request.batch_id}`);
         return response.data;
     }

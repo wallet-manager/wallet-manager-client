@@ -7,6 +7,10 @@ import { GetAddressReqeust } from '../src/entities/GetAddressRequest';
 import { BatchWithdrawRequest, WithdrawOrder} from '../src/entities/BatchWithdrawRequest';
 import { BatchWithdrawResult } from '../src/entities/BatchWithdrawResult';
 import { BatchSweepRequest } from '../src/entities/BatchSweepRequest';
+import { GetDepositByAddressRequest } from '../src/entities/GetDepositByAddressRequest';
+import { GetDepositByHashRequest } from '../src/entities/GetDepositByHashRequest';
+import { GetWithdrawByOrderIdRequest } from '../src/entities/GetWithdrawByOrderIdRequest';
+import { GetWithdrawByBatchIdRequest } from '../src/entities/GetWithdrawByBatchIdRequest';
 
 import { expect } from 'chai';
 
@@ -21,21 +25,23 @@ const client = new WalletManagerClient(privateKey, clientConfig);
 describe("Test Access API", async function () {
 
     it("Get Address", async function () {
-        
-        const request:GetAddressReqeust = {
-            merchant_id: new BigNumber('1'),
-            chain_type: ChainType.ETH,
-            chain_id: ChainId.Rinkeby,
-            client_id: '2' //new Date().getTime().toFixed()
-        };
 
-        const response = await client.getAddress(request);
-        console.info(JSON.stringify(response));
-
-        expect(response.result).to.be.not.undefined;
-        expect(response.result).to.be.not.null;
-        expect(response.result?.address).to.be.not.undefined;
-        expect(response.result?.address).is.an("string");
+        // for(let i = 0; i < 100 ; i++) {
+            const request:GetAddressReqeust = {
+                merchant_id: new BigNumber('3'),
+                chain_type: ChainType.ETH,
+                chain_id: ChainId.Rinkeby,
+                client_id: new Date().getTime().toFixed()
+            };
+    
+            const response = await client.getAddress(request);
+            console.info(JSON.stringify(response));
+    
+            expect(response.result).to.be.not.undefined;
+            expect(response.result).to.be.not.null;
+            expect(response.result?.address).to.be.not.undefined;
+            expect(response.result?.address).is.an("string");
+        // }
 
     });
 
@@ -49,7 +55,7 @@ describe("Test Access API", async function () {
         };
 
         const request:BatchWithdrawRequest = {
-            merchant_id:new BigNumber(2),
+            merchant_id:new BigNumber(3),
             chain_type: ChainType.ETH,
             chain_id: ChainId.Rinkeby,
             asset_name: "USDT",
@@ -110,6 +116,49 @@ describe("Test Access API", async function () {
         console.info(JSON.stringify(response));
     });
 
-    
+    it("getDepositByAddress", async function(){
+
+        const request:GetDepositByAddressRequest = {
+            chain_type: ChainType.ETH,
+            chain_id: ChainId.Rinkeby,
+            address: "0x8F9092CE573e41d72378Cf8c9d3335584e6843F1",
+            asset_name: "USDT",
+            offset: 0,
+            limit: 10
+        };
+        const response = await client.getDepositByAddress(request);
+
+        console.info(JSON.stringify(response));
+
+    });
+
+    it("getDepositByHash", async function(){
+        const request:GetDepositByHashRequest = {
+            chain_type: ChainType.ETH,
+            chain_id: ChainId.Rinkeby,
+            tx_hash: "0x11111"
+        };
+        const response = await client.getDepositByHash(request);
+
+        console.info(JSON.stringify(response));
+    });
+
+    it("getWithdrawByOrderId", async function(){
+        const request:GetWithdrawByOrderIdRequest = {
+            merchant_order_id: "100002123"
+        };
+        const response = await client.getWithdrawByOrderId(request);
+
+        console.info(JSON.stringify(response));
+    });
+
+    it("getWithdrawByBatchId", async function(){
+        const request:GetWithdrawByBatchIdRequest = {
+            batch_id: "56"
+        };
+        const response = await client.getWithdrawByBatchId(request);
+
+        console.info(JSON.stringify(response));
+    });
     
 });

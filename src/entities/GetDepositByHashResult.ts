@@ -1,7 +1,7 @@
-import BigNumber from "bignumber.js";
-import { ChainType } from "./Enums";
+import { TransferTransaction } from "./TransferTransaction";
 
-export interface GetDepositByHashResponse {
+export interface GetDepositByHashResult {
 
+    transactions:TransferTransaction[]
     
 }
