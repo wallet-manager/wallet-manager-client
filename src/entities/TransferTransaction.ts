@@ -24,5 +24,5 @@ export interface TransferTransaction {
     status: TransactionStatus
     wallet_settlement_date: number,
     creatd_date: number,
-    pos_balance: string
+    post_balance: string
 }
