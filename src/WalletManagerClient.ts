@@ -50,9 +50,9 @@ export class WalletManagerClient{
     }
 
     async getDepositByAddress(request:GetDepositByAddressRequest):Promise<Response<GetDepositByAddressResult>>{
-        const {chain_type, chain_id, address, asset_name} = request;
+        const {chain_type, chain_id, address, asset_name, offset, limit} = request;        
         const response = await this.instance.get(
-                `/${chain_type}/${chain_id}/transfer/addr/${address}/deposit/${asset_name}`
+                `/${chain_type}/${chain_id}/transfer/addr/${address}/deposit/${asset_name}?offset=${offset}&limit=${limit}`
             );
         return response.data;
     }
