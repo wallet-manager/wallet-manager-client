@@ -6,19 +6,18 @@
   "scripts": {
     "build": "tsc",
     "start": "yarn build && node ./dist/index.js",
-    "startTestServer": "yarn build && node ./dist/server/MerchantApiServer.js",
     "test": "npx mocha",
     "release": "standard-version && git push --follow-tags && npm publish"
   },
   "repository": {
     "type": "git",
-    "url": "fdddf"
+    "url": "https://github.com/wallet-manager/wallet-manager-client"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "bignumber.js": "^9.1.0",
-    "wallet-manager-client-utils": "^1.0.4"
+    "wallet-manager-client-utils": "^1.0.6"
   },
   "devDependencies": {
     "@types/chai": "^4.3.1",
