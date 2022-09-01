@@ -1,0 +1,1 @@
+export { WalletManagerClient } from "./src/WalletManagerClient";
