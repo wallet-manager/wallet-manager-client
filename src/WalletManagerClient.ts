@@ -27,11 +27,12 @@ import { AxiosInstance } from 'axios';
 
 export class WalletManagerClient{
 
-    instance:AxiosInstance;
+    readonly instance:AxiosInstance;
+    readonly utils:WalletManagerUtils;
 
     constructor(privateKey:string, clientConfig:ClientConfig){
-        const utils = new WalletManagerUtils(privateKey, clientConfig.instanceId);
-        this.instance = utils.createAxiosInstance(clientConfig.baseURL, clientConfig.contentTypeJson);
+        this.utils = new WalletManagerUtils(privateKey, clientConfig.instanceId);
+        this.instance = this.utils.createAxiosInstance(clientConfig.baseURL, clientConfig.contentTypeJson);
     }
 
     async getAddress(request:GetAddressReqeust):Promise<Response<GetAddressResult>>{
@@ -52,7 +53,12 @@ export class WalletManagerClient{
     async getDepositByAddress(request:GetDepositByAddressRequest):Promise<Response<GetDepositByAddressResult>>{
         const {chain_type, chain_id, address, asset_name, offset, limit} = request;        
         const response = await this.instance.get(
-                `/${chain_type}/${chain_id}/transfer/addr/${address}/deposit/${asset_name}?offset=${offset}&limit=${limit}`
+                `/${chain_type}/${chain_id}/transfer/addr/${address}/deposit/${asset_name}`, {
+                    params: {
+                        limit: limit,
+                        offset: offset,
+                    }
+                }
             );
         return response.data;
     }
