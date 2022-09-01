@@ -2,7 +2,7 @@
   "name": "wallet-manager-client",
   "version": "1.0.3",
   "description": "",
-  "main": "index.js",
+  "main": "./dist/index.js",
   "scripts": {
     "build": "tsc",
     "start": "yarn build && node ./dist/index.js",
@@ -17,7 +17,7 @@
   "license": "ISC",
   "dependencies": {
     "bignumber.js": "^9.1.0",
-    "wallet-manager-client-utils": "^1.0.6"
+    "wallet-manager-client-utils": "^1.0.7"
   },
   "devDependencies": {
     "@types/chai": "^4.3.1",
