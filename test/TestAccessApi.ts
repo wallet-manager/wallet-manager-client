@@ -9,11 +9,10 @@ import { BatchWithdrawResult } from '../src/entities/BatchWithdrawResult';
 import { BatchSweepRequest } from '../src/entities/BatchSweepRequest';
 import { GetDepositByAddressRequest } from '../src/entities/GetDepositByAddressRequest';
 import { GetDepositByHashRequest } from '../src/entities/GetDepositByHashRequest';
-// import { GetWithdrawByOrderIdRequest } from '../src/entities/GetWithdrawByOrderIdRequests';
+import { GetWithdrawByOrderIdRequest } from '../src/entities/GetWithdrawByOrderIdRequest';
 import { GetWithdrawByBatchIdRequest } from '../src/entities/GetWithdrawByBatchIdRequest';
 
 import { expect } from 'chai';
-import { GetWithdrawByOrderIdRequest } from '../src/entities/GetWithdrawByOrderIdRequests';
 
 const clientConfig = CONFIG.clientConfig;
 const { privateKey } = CONFIG.identity;

@@ -8,7 +8,7 @@ import { GetDepositByAddressResult } from './entities/GetDepositByAddressResult'
 import { GetDepositByHashRequest } from './entities/GetDepositByHashRequest';
 import { GetDepositByHashResult } from './entities/GetDepositByHashResult';
 
-// import { GetWithdrawByOrderIdRequest } from './entities/GetWithdrawByOrderIdRequest';
+import { GetWithdrawByOrderIdRequest } from './entities/GetWithdrawByOrderIdRequest';
 import { Operation } from './entities/Operation';
 
 import { GetWithdrawByBatchIdRequest } from './entities/GetWithdrawByBatchIdRequest';
@@ -24,7 +24,6 @@ import { BatchSweepRequest } from './entities/BatchSweepRequest';
 import { BatchSweepResult } from './entities/BatchSweepResult';
 
 import { AxiosInstance } from 'axios';
-import { GetWithdrawByOrderIdRequest } from './entities/GetWithdrawByOrderIdRequests';
 
 export class WalletManagerClient{
 
