@@ -8,7 +8,7 @@ import { GetDepositByAddressResult } from './entities/GetDepositByAddressResult'
 import { GetDepositByHashRequest } from './entities/GetDepositByHashRequest';
 import { GetDepositByHashResult } from './entities/GetDepositByHashResult';
 
-import { GetWithdrawByOrderIdRequest } from './entities/GetWithdrawByOrderIdRequest';
+// import { GetWithdrawByOrderIdRequest } from './entities/GetWithdrawByOrderIdRequest';
 import { Operation } from './entities/Operation';
 
 import { GetWithdrawByBatchIdRequest } from './entities/GetWithdrawByBatchIdRequest';
@@ -24,6 +24,7 @@ import { BatchSweepRequest } from './entities/BatchSweepRequest';
 import { BatchSweepResult } from './entities/BatchSweepResult';
 
 import { AxiosInstance } from 'axios';
+import { GetWithdrawByOrderIdRequest } from './entities/GetWithdrawByOrderIdRequests';
 
 export class WalletManagerClient{
 
@@ -58,9 +59,14 @@ export class WalletManagerClient{
     }
 
     async getDepositByHash(request:GetDepositByHashRequest):Promise<Response<GetDepositByHashResult>>{
-        const {chain_type, chain_id, tx_hash} = request;
+        const {chain_type, chain_id, tx_hash, limit, offset} = request;
         const response = await this.instance.get(
-                `/${chain_type}/${chain_id}/transfer/hash/${tx_hash}/deposit`
+                `/${chain_type}/${chain_id}/transfer/hash/${tx_hash}/deposit`, {
+                    params: {
+                        limit: limit,
+                        offset: offset,
+                    }
+                }
             );
         return response.data;
     }
