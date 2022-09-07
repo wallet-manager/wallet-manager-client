@@ -51,9 +51,10 @@ export class WalletManagerClient{
     }
 
     async getDepositByAddress(request:GetDepositByAddressRequest):Promise<Response<GetDepositByAddressResult>>{
-        const {chain_type, chain_id, address, asset_name, offset, limit} = request;        
+        const {chain_type, chain_id, address, asset_name, offset, limit} = request;
+        const path = `/${chain_type}/${chain_id}/transfer/addr/${address}/deposit/${asset_name}`;
         const response = await this.instance.get(
-                `/${chain_type}/${chain_id}/transfer/addr/${address}/deposit/${asset_name}`, {
+                path, {
                     params: {
                         limit: limit,
                         offset: offset,
@@ -65,8 +66,9 @@ export class WalletManagerClient{
 
     async getDepositByHash(request:GetDepositByHashRequest):Promise<Response<GetDepositByHashResult>>{
         const {chain_type, chain_id, tx_hash, limit, offset} = request;
+        const path = `/${chain_type}/${chain_id}/transfer/hash/${tx_hash}/deposit`;
         const response = await this.instance.get(
-                `/${chain_type}/${chain_id}/transfer/hash/${tx_hash}/deposit`, {
+                path, {
                     params: {
                         limit: limit,
                         offset: offset,
@@ -77,13 +79,28 @@ export class WalletManagerClient{
     }
 
     async getWithdrawByOrderId(request:GetWithdrawByOrderIdRequest):Promise<Response<Operation>>{
-        const response = await this.instance.get(`/withdraw/order/${request.merchant_order_id}`);
+        const {merchant_order_id, limit, offset} = request;
+        const path = `/withdraw/order/${merchant_order_id}`;
+        const response = await this.instance.get(
+            path, {
+                params: {
+                    limit: limit,
+                    offset: offset,
+                }
+            });
         return response.data;
     }
 
-
     async getWithdrawByBatchId(request:GetWithdrawByBatchIdRequest):Promise<Response<OperationBatch>>{
-        const response = await this.instance.get(`/withdraw/batch/${request.batch_id}`);
+        const {batch_id, limit, offset} = request;
+        const path = `/withdraw/batch/${batch_id}`;
+        const response = await this.instance.get(
+            path, {
+                params: {
+                    limit: limit,
+                    offset: offset,
+                }
+            });
         return response.data;
     }
 }

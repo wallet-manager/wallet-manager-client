@@ -47,19 +47,26 @@ describe("Test Access API", async function () {
 
     it("Batch withdraw", async function () {        
 
-        const order:WithdrawOrder = {
+        const order1:WithdrawOrder = {
             merchant_order_id: "W" + orderSeq++,
-            amount: new BigNumber("1000000"),
-            decimals: 6,
+            amount: new BigNumber("100000000000000000"),
+            decimals: 18,
             to_address: "0x8F9092CE573e41d72378Cf8c9d3335584e6843F2"
+        };
+
+        const order2:WithdrawOrder = {
+            merchant_order_id: "W" + orderSeq++,
+            amount: new BigNumber("200000000000000000"),
+            decimals: 18,
+            to_address: "0xA0365E4087335b3365a233598bCE4E166E4622fB" // to a client wallet address
         };
 
         const request:BatchWithdrawRequest = {
             merchant_id:new BigNumber(3),
             chain_type: ChainType.ETH,
             chain_id: ChainId.Rinkeby,
-            asset_name: "USDT",
-            orders: [order],
+            asset_name: "UNI",
+            orders: [order1, order2],
             client_data: "abc"
         };
 
@@ -132,15 +139,15 @@ describe("Test Access API", async function () {
     it("Preview batch sweep", async function () {        
 
         const request:BatchSweepRequest = {
-            merchant_id: new BigNumber(2),
+            merchant_id: new BigNumber(3),
             merchant_order_id: 'S' + orderSeq++,
             chain_type: ChainType.ETH,
             chain_id: ChainId.Rinkeby,
-            asset_name: "USDT",
-            threshold: new BigNumber(1000000),
-            decimals: 6,
-            gether_address: "0x8F9092CE573e41d72378Cf8c9d3335584e6843F1",
-            invoker_address: "0x8F9092CE573e41d72378Cf8c9d3335584e6843F2",
+            asset_name: "UNI",
+            threshold: new BigNumber(1400000000),
+            decimals: 18,
+            gether_address: "0xcc1cf534F0F29C2CA6BB920C4D6473A7cbb06aDF",
+            invoker_address: "0xfee2FFF9c65336EdBd61F6882f7dC9FAc2e782e5",
             client_data: "abc",
             preview: true
         };
@@ -153,15 +160,15 @@ describe("Test Access API", async function () {
     it("Batch sweep", async function () {        
 
         const request:BatchSweepRequest = {
-            merchant_id: new BigNumber(2),
+            merchant_id: new BigNumber(3),
             merchant_order_id: 'S' + orderSeq++,
             chain_type: ChainType.ETH,
             chain_id: ChainId.Rinkeby,
-            asset_name: "USDT",
-            threshold: new BigNumber(1000000),
-            decimals: 6,
-            gether_address: "0x8F9092CE573e41d72378Cf8c9d3335584e6843F1",
-            invoker_address: "0x8F9092CE573e41d72378Cf8c9d3335584e6843F2",
+            asset_name: "UNI",
+            threshold: new BigNumber(1400000000),
+            decimals: 18,
+            gether_address: "0xcc1cf534F0F29C2CA6BB920C4D6473A7cbb06aDF",
+            invoker_address: "0xfee2FFF9c65336EdBd61F6882f7dC9FAc2e782e5",
             client_data: "abc",
             preview: false
         };
@@ -170,6 +177,7 @@ describe("Test Access API", async function () {
 
         console.info(JSON.stringify(response));
     });
+
     it("Batch sweep 001", async function () {        
 
         const request:BatchSweepRequest = {
@@ -196,8 +204,8 @@ describe("Test Access API", async function () {
         const request:GetDepositByAddressRequest = {
             chain_type: ChainType.ETH,
             chain_id: ChainId.Rinkeby,
-            address: "0x8F9092CE573e41d72378Cf8c9d3335584e6843F1",
-            asset_name: "USDT",
+            address: "0xaa2a674256017f7B71f8f7dF36041C5187D7B68E",
+            asset_name: "UNI",
             offset: 0,
             limit: 10
         };
@@ -211,9 +219,9 @@ describe("Test Access API", async function () {
         const request:GetDepositByHashRequest = {
             chain_type: ChainType.ETH,
             chain_id: ChainId.Rinkeby,
-            tx_hash: "0xb75e799ced3e0e86646af3378501de3adfd3aa1176ae951bc69f8028a5852f79",
-            limit: 100,
+            tx_hash: "0x1976e40062b6024d52667a6c88508a2ec0716ab50107ebfc26095beb4e8e4851",
             offset: 0,
+            limit: 10
         };
         const response = await client.getDepositByHash(request);
 
@@ -222,7 +230,9 @@ describe("Test Access API", async function () {
 
     it("getWithdrawByOrderId", async function(){
         const request:GetWithdrawByOrderIdRequest = {
-            merchant_order_id: "100002123"
+            merchant_order_id: "W1662104213630",
+            offset: 0,
+            limit: 10
         };
         const response = await client.getWithdrawByOrderId(request);
 
@@ -231,11 +241,13 @@ describe("Test Access API", async function () {
 
     it("getWithdrawByBatchId", async function(){
         const request:GetWithdrawByBatchIdRequest = {
-            batch_id: "56"
+            batch_id: "168",
+            offset: 0,
+            limit: 10
         };
         const response = await client.getWithdrawByBatchId(request);
 
-        console.info(JSON.stringify(response));
+        console.info(JSON.stringify(response, null, 2));
     });
     
 });
