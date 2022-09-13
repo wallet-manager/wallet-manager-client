@@ -1,5 +1,7 @@
 
-import { CONFIG } from 'wallet-manager-client-utils';
+import { loadConfig, Config } from 'wallet-manager-client-utils';
+const CONFIG = loadConfig<Config>('config');
+
 import { ChainType, ChainId } from './entities/Enums';
 import BigNumber from "bignumber.js";
 

@@ -1,4 +1,5 @@
-import { CONFIG } from 'wallet-manager-client-utils';
+import { Config, loadConfig } from 'wallet-manager-client-utils';
+const CONFIG = loadConfig<Config>('config');
 import { ChainType, ChainId} from '../src/entities/Enums';
 import BigNumber from "bignumber.js";
 
@@ -19,29 +20,30 @@ const { privateKey } = CONFIG.identity;
 
 let orderSeq = new Date().getTime();
 
+const chain_type = ChainType.ETH;
+const chain_id = ChainId.Rinkeby;
+const merchant_id = new BigNumber('3');
 
 const client = new WalletManagerClient(privateKey, clientConfig);
 
-describe("Test Access API", async function () {
+describe("Test Access API ETH", async function () {
 
     it("Get Address", async function () {
 
-        // for(let i = 0; i < 100 ; i++) {
-            const request:GetAddressReqeust = {
-                merchant_id: new BigNumber('3'),
-                chain_type: ChainType.ETH,
-                chain_id: ChainId.Rinkeby,
-                client_id: new Date().getTime().toFixed()
-            };
-    
-            const response = await client.getAddress(request);
-            console.info(JSON.stringify(response));
-    
-            expect(response.result).to.be.not.undefined;
-            expect(response.result).to.be.not.null;
-            expect(response.result?.address).to.be.not.undefined;
-            expect(response.result?.address).is.an("string");
-        // }
+        const request:GetAddressReqeust = {
+            chain_type, 
+            chain_id, 
+            merchant_id,
+            client_id: new Date().getTime().toFixed()
+        };
+
+        const response = await client.getAddress(request);
+        console.info(JSON.stringify(response));
+
+        expect(response.result).to.be.not.undefined;
+        expect(response.result).to.be.not.null;
+        expect(response.result?.address).to.be.not.undefined;
+        expect(response.result?.address).is.an("string");
 
     });
 
@@ -62,9 +64,9 @@ describe("Test Access API", async function () {
         };
 
         const request:BatchWithdrawRequest = {
-            merchant_id:new BigNumber(3),
-            chain_type: ChainType.ETH,
-            chain_id: ChainId.Rinkeby,
+            chain_type, 
+            chain_id, 
+            merchant_id,
             asset_name: "UNI",
             orders: [order1, order2],
             client_data: "abc"
@@ -118,9 +120,9 @@ describe("Test Access API", async function () {
         };
 
         const request:BatchWithdrawRequest = {
-            merchant_id:new BigNumber(3),
-            chain_type: ChainType.ETH,
-            chain_id: ChainId.Rinkeby,
+            chain_type, 
+            chain_id, 
+            merchant_id,
             asset_name: "USDC",
             orders: [order],
             client_data: "cf_test002"
@@ -141,10 +143,10 @@ describe("Test Access API", async function () {
         const request:BatchSweepRequest = {
             merchant_id: new BigNumber(3),
             merchant_order_id: 'S' + orderSeq++,
-            chain_type: ChainType.ETH,
-            chain_id: ChainId.Rinkeby,
+            chain_type,
+            chain_id,
             asset_name: "UNI",
-            threshold: new BigNumber(1400000000),
+            threshold: new BigNumber("1400000000"),
             decimals: 18,
             gether_address: "0xcc1cf534F0F29C2CA6BB920C4D6473A7cbb06aDF",
             invoker_address: "0xfee2FFF9c65336EdBd61F6882f7dC9FAc2e782e5",
@@ -162,10 +164,10 @@ describe("Test Access API", async function () {
         const request:BatchSweepRequest = {
             merchant_id: new BigNumber(3),
             merchant_order_id: 'S' + orderSeq++,
-            chain_type: ChainType.ETH,
-            chain_id: ChainId.Rinkeby,
+            chain_type,
+            chain_id,
             asset_name: "UNI",
-            threshold: new BigNumber(1400000000),
+            threshold: new BigNumber("1400000000"),
             decimals: 18,
             gether_address: "0xcc1cf534F0F29C2CA6BB920C4D6473A7cbb06aDF",
             invoker_address: "0xfee2FFF9c65336EdBd61F6882f7dC9FAc2e782e5",
@@ -183,8 +185,8 @@ describe("Test Access API", async function () {
         const request:BatchSweepRequest = {
             merchant_id: new BigNumber(3),
             merchant_order_id: 'S' + orderSeq++,
-            chain_type: ChainType.ETH,
-            chain_id: ChainId.Rinkeby,
+            chain_type,
+            chain_id,
             asset_name: "ETH",
             threshold: new BigNumber(30000000),
             decimals: 18,
@@ -202,8 +204,8 @@ describe("Test Access API", async function () {
     it("getDepositByAddress", async function(){
 
         const request:GetDepositByAddressRequest = {
-            chain_type: ChainType.ETH,
-            chain_id: ChainId.Rinkeby,
+            chain_type,
+            chain_id,
             address: "0xaa2a674256017f7B71f8f7dF36041C5187D7B68E",
             asset_name: "UNI",
             offset: 0,
@@ -217,8 +219,8 @@ describe("Test Access API", async function () {
 
     it("getDepositByHash", async function(){
         const request:GetDepositByHashRequest = {
-            chain_type: ChainType.ETH,
-            chain_id: ChainId.Rinkeby,
+            chain_type,
+            chain_id,
             tx_hash: "0x1976e40062b6024d52667a6c88508a2ec0716ab50107ebfc26095beb4e8e4851",
             offset: 0,
             limit: 10

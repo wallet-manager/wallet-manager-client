@@ -4,8 +4,8 @@
   "description": "",
   "main": "./dist/index.js",
   "scripts": {
-    "build": "tsc",
-    "start": "yarn build && node ./dist/index.js",
+    "compile": "tsc",
+    "start": "npm run compile && node ./dist/index.js",
     "test": "npx mocha",
     "release": "standard-version && git push --follow-tags && npm publish"
   },
@@ -17,7 +17,7 @@
   "license": "ISC",
   "dependencies": {
     "bignumber.js": "^9.1.0",
-    "wallet-manager-client-utils": "^1.0.8"
+    "wallet-manager-client-utils": "^1.0.9"
   },
   "devDependencies": {
     "@types/chai": "^4.3.1",

@@ -7,6 +7,7 @@ export enum ChainType{
 }
 
 export class ChainId{
+    static readonly Default = new BigNumber('1');
     static readonly Ethereum = new BigNumber('1');
     static readonly Rinkeby = new BigNumber('4');
     static readonly BSC = new BigNumber('56');
