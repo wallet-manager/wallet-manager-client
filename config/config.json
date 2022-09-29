@@ -1,4 +1,5 @@
 {
+    "merchantId": 1,
     "identity": {
         "privateKey": "PRIVATE_KEY",
         "publicKey": "PUBLIC_KEY",

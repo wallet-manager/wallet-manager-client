@@ -1,13 +1,13 @@
-import { loadConfig } from 'wallet-manager-client-utils';
+import {loadConfig } from 'wallet-manager-client-utils';
 import { MerchantConfig } from '../src/entities/MerchantConfig'
 const CONFIG = loadConfig<MerchantConfig>('config');
+
 import { ChainType, ChainId} from '../src/entities/Enums';
 import BigNumber from "bignumber.js";
 
 import {WalletManagerClient} from '../src/WalletManagerClient';
 import { GetAddressReqeust } from '../src/entities/GetAddressRequest';
 import { BatchWithdrawRequest, WithdrawOrder} from '../src/entities/BatchWithdrawRequest';
-import { BatchWithdrawResult } from '../src/entities/BatchWithdrawResult';
 import { BatchSweepRequest } from '../src/entities/BatchSweepRequest';
 import { GetDepositByAddressRequest } from '../src/entities/GetDepositByAddressRequest';
 import { GetDepositByHashRequest } from '../src/entities/GetDepositByHashRequest';
@@ -21,13 +21,13 @@ const { privateKey } = CONFIG.identity;
 
 let orderSeq = new Date().getTime();
 
-const chain_type = ChainType.ETH;
-const chain_id = ChainId.Rinkeby;
+const chain_type = ChainType.BTC;
+const chain_id = ChainId.Default;
 const merchant_id = new BigNumber(CONFIG.merchantId);
 
 const client = new WalletManagerClient(privateKey, clientConfig);
 
-describe("Test Access API ETH", async function () {
+describe("Test Access API BTC", async function () {
 
     it("Get Address", async function () {
 
@@ -52,24 +52,24 @@ describe("Test Access API ETH", async function () {
 
         const order1:WithdrawOrder = {
             merchant_order_id: "W" + orderSeq++,
-            amount: new BigNumber("2000000000000000000"),
-            decimals: 18,
-            to_address: "0x2d1366C71e86F20De3eeCc3f00F270D78A8CEFe5"
+            amount: new BigNumber("200000"),
+            decimals: 8,
+            to_address: "tb1qal459lfds9kf73qa2w8z4hv2fj6j2uszwv9q7x"
         };
 
-        // const order2:WithdrawOrder = {
-        //     merchant_order_id: "W" + orderSeq++,
-        //     amount: new BigNumber("300000000000000000"),
-        //     decimals: 18,
-        //     to_address: "0x2d1366C71e86F20De3eeCc3f00F270D78A8CEFe5" // to a client wallet address
-        // };
+        const order2:WithdrawOrder = {
+            merchant_order_id: "W" + orderSeq++,
+            amount: new BigNumber("100000"),
+            decimals: 8,
+            to_address: "n31Y2XULHmCEtGuGuQnwjnkhL4BNu8syos" // to a client wallet address
+        };
 
         const request:BatchWithdrawRequest = {
             chain_type, 
             chain_id, 
             merchant_id,
-            asset_name: "WMT",
-            orders: [order1],
+            asset_name: "BTC",
+            orders: [order1, order2],
             client_data: "abc"
         };
 
@@ -146,11 +146,11 @@ describe("Test Access API ETH", async function () {
             merchant_order_id: 'S' + orderSeq++,
             chain_type,
             chain_id,
-            asset_name: "UNI",
-            threshold: new BigNumber("1400000000"),
-            decimals: 18,
-            gether_address: "0xcc1cf534F0F29C2CA6BB920C4D6473A7cbb06aDF",
-            invoker_address: "0xfee2FFF9c65336EdBd61F6882f7dC9FAc2e782e5",
+            asset_name: "BTC",
+            threshold: new BigNumber(600000),
+            decimals: 8,
+            gether_address: "moNHpVi549NYvyfuGfNwFGG5SJRfgFckzv", // hot wallet address
+            invoker_address: "",
             client_data: "abc",
             preview: true
         };
@@ -167,11 +167,11 @@ describe("Test Access API ETH", async function () {
             merchant_order_id: 'S' + orderSeq++,
             chain_type,
             chain_id,
-            asset_name: "UNI",
-            threshold: new BigNumber("1400000000"),
-            decimals: 18,
-            gether_address: "0xcc1cf534F0F29C2CA6BB920C4D6473A7cbb06aDF",
-            invoker_address: "0xfee2FFF9c65336EdBd61F6882f7dC9FAc2e782e5",
+            asset_name: "BTC",
+            threshold: new BigNumber(600000),
+            decimals: 8,
+            gether_address: "moNHpVi549NYvyfuGfNwFGG5SJRfgFckzv", //hot wallet address
+            invoker_address: "",
             client_data: "abc",
             preview: false
         };
@@ -222,7 +222,7 @@ describe("Test Access API ETH", async function () {
         const request:GetDepositByHashRequest = {
             chain_type,
             chain_id,
-            tx_hash: "0x5890c794096a98008f1e0d60feb93076169a1def754e4015971db8215e450ff1",
+            tx_hash: "0x1976e40062b6024d52667a6c88508a2ec0716ab50107ebfc26095beb4e8e4851",
             offset: 0,
             limit: 10
         };
