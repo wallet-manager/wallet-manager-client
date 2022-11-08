@@ -4681,10 +4681,10 @@ validate-npm-package-license@^3.0.1:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
 
-wallet-manager-client-utils@^1.0.7:
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/wallet-manager-client-utils/-/wallet-manager-client-utils-1.0.7.tgz#cf3058813b72c3de6bad6157165826a7f8ab516d"
-  integrity sha512-iDj/WFBt1LahbPI1uk5/eSvWfhKugouOKNn2uxsU4OFhmYivSZkA9YuOgmPrnLUxFTT0Oz3sKnoz6nmVr1PT9Q==
+wallet-manager-client-utils@^1.0.13:
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/wallet-manager-client-utils/-/wallet-manager-client-utils-1.0.13.tgz#7297c86f84654768ae0ad6945899191c1e90ac1a"
+  integrity sha512-slyqKjyqlBm9/TaoG/Y0LlulTDGoVH5PT+NasLh+CuHpJHICWsS5k8muntsLiTpq9W/XHSkwvlB/kt7MSEC4oA==
   dependencies:
     axios "^0.27.2"
     dateformat "^5.0.3"
