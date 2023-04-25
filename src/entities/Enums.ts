@@ -23,7 +23,8 @@ export enum OperationBatchStatus{
     Signed = 6,
     Executing = 3,
     Completed = 4,
-    PartialCompleted = 5
+    PartialCompleted = 5,
+    Stucking = 7
 }
 
 export enum OperationStatus{
@@ -34,7 +35,8 @@ export enum OperationStatus{
     Submitted = 2,
     Signed = 6,
     Executing = 3,
-    Completed = 4
+    Completed = 4,
+    Stucking = 7
 }
 
 export enum OperationType{
