@@ -52,14 +52,14 @@ describe("Test Access API BTC", async function () {
 
         const order1:WithdrawOrder = {
             merchant_order_id: "W" + orderSeq++,
-            amount: new BigNumber("200000"),
+            amount: "200000",
             decimals: 8,
             to_address: "tb1qal459lfds9kf73qa2w8z4hv2fj6j2uszwv9q7x"
         };
 
         const order2:WithdrawOrder = {
             merchant_order_id: "W" + orderSeq++,
-            amount: new BigNumber("100000"),
+            amount: "100000",
             decimals: 8,
             to_address: "n31Y2XULHmCEtGuGuQnwjnkhL4BNu8syos" // to a client wallet address
         };
@@ -87,7 +87,7 @@ describe("Test Access API BTC", async function () {
 
         const order:WithdrawOrder = {
             merchant_order_id: "W" + orderSeq++,
-            amount: new BigNumber("10000000"),
+            amount: "10000000",
             decimals: 6,
             to_address: "0x8F9092CE573e41d72378Cf8c9d3335584e6843F2"
         };
@@ -115,7 +115,7 @@ describe("Test Access API BTC", async function () {
 
         const order:WithdrawOrder = {
             merchant_order_id: "W" + orderSeq++,
-            amount: new BigNumber("-0.1"),
+            amount: "-0.1",
             decimals: 6,
             to_address: "0x8F9092CE573e41d72378Cf8c9d3335584e6843F2"
         };
@@ -234,8 +234,7 @@ describe("Test Access API BTC", async function () {
     it("getWithdrawByOrderId", async function(){
         const request:GetWithdrawByOrderIdRequest = {
             merchant_order_id: "W1662104213630",
-            offset: 0,
-            limit: 10
+            withFee: true
         };
         const response = await client.getWithdrawByOrderId(request);
 

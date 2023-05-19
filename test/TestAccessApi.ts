@@ -13,6 +13,8 @@ import { GetDepositByAddressRequest } from '../src/entities/GetDepositByAddressR
 import { GetDepositByHashRequest } from '../src/entities/GetDepositByHashRequest';
 import { GetWithdrawByOrderIdRequest } from '../src/entities/GetWithdrawByOrderIdRequest';
 import { GetWithdrawByBatchIdRequest } from '../src/entities/GetWithdrawByBatchIdRequest';
+import {EnquiryWalletTypeBalanceRequest}  from '../src/entities/EnquiryWalletTypeBalanceRequest';
+import {EnquiryWalletTypeBalanceResult}  from '../src/entities/EnquiryWalletTypeBalanceResult';
 
 import { expect } from 'chai';
 
@@ -21,11 +23,13 @@ const { privateKey } = CONFIG.identity;
 
 let orderSeq = new Date().getTime();
 
-const chain_type = ChainType.ETH;
-const chain_id = ChainId.Rinkeby;
+const chain_type = ChainType.TRON;
+const chain_id = ChainId.Default;
 const merchant_id = new BigNumber(CONFIG.merchantId);
 
-const client = new WalletManagerClient(privateKey, clientConfig);
+const client = new WalletManagerClient(privateKey, clientConfig, (request) => {
+    console.info(JSON.stringify(request))
+});
 
 describe("Test Access API ETH", async function () {
 
@@ -51,10 +55,10 @@ describe("Test Access API ETH", async function () {
     it("Batch withdraw", async function () {        
 
         const order1:WithdrawOrder = {
-            merchant_order_id: "W" + orderSeq++,
-            amount: new BigNumber("2000000000000000000"),
-            decimals: 18,
-            to_address: "0x2d1366C71e86F20De3eeCc3f00F270D78A8CEFe5"
+            merchant_order_id: "W1234567890", //+ orderSeq++,
+            amount: "2000000000000000000",
+            decimals: 6,
+            to_address: "TCM2FJiHQfYuRY4c2kcdcpRykYmRkJpLRQ"
         };
 
         // const order2:WithdrawOrder = {
@@ -68,7 +72,7 @@ describe("Test Access API ETH", async function () {
             chain_type, 
             chain_id, 
             merchant_id,
-            asset_name: "WMT",
+            asset_name: "USDT",
             orders: [order1],
             client_data: "abc"
         };
@@ -87,15 +91,16 @@ describe("Test Access API ETH", async function () {
 
         const order:WithdrawOrder = {
             merchant_order_id: "W" + orderSeq++,
-            amount: new BigNumber("10000000"),
+            amount: "1000000000000000000000",
+            //amount: new BigNumber("1000000"),
             decimals: 6,
             to_address: "0x8F9092CE573e41d72378Cf8c9d3335584e6843F2"
         };
 
         const request:BatchWithdrawRequest = {
-            merchant_id:new BigNumber(3),
+            merchant_id:new BigNumber(CONFIG.merchantId),
             chain_type: ChainType.ETH,
-            chain_id: ChainId.Rinkeby,
+            chain_id: ChainId.Sepolia,
             asset_name: "USDC",
             orders: [order],
             client_data: "cf_test001"
@@ -115,7 +120,7 @@ describe("Test Access API ETH", async function () {
 
         const order:WithdrawOrder = {
             merchant_order_id: "W" + orderSeq++,
-            amount: new BigNumber("-0.1"),
+            amount: "-0.1",
             decimals: 6,
             to_address: "0x8F9092CE573e41d72378Cf8c9d3335584e6843F2"
         };
@@ -207,8 +212,8 @@ describe("Test Access API ETH", async function () {
         const request:GetDepositByAddressRequest = {
             chain_type,
             chain_id,
-            address: "0xaa2a674256017f7B71f8f7dF36041C5187D7B68E",
-            asset_name: "UNI",
+            address: "0xaF59Bf676e2b8e8D904D06c47a944A6124BF2C2E",
+            asset_name: "WMT",
             offset: 0,
             limit: 10
         };
@@ -218,11 +223,13 @@ describe("Test Access API ETH", async function () {
 
     });
 
+// "{""type"":""deposit_status"",""data"":{""id"":104,""merchant_id"":1,""chain_type"":1,""chain_id"":1,""client_id"":""525a1134205946a3348b0507cc3af213"",""trans_type"":1,""wallet_address"":""1LjAYqbJQRL1U1kPmo7MPHmMWPbaj1M3Qc"",""from_address"":""1Cxu9uvTkBFVmFN7vvT4dTCsBbrqod4QjP"",""asset_name"":""BTC"",""amount"":""10000"",""decimals"":8,""status"":2,""updated_time"":1664351487,""block_number"":""756030"",""block_hash"":""0000000000000000000534b74798cec3ed91ff62fa4049ae38ce3723d01cf262"",""block_time"":1664349920,""tx_hash"":""30e929ac8ae51a9f32805a774e9cc73b5f6bb3a662ef7d1c716d69327548ec51""}}"
+
     it("getDepositByHash", async function(){
         const request:GetDepositByHashRequest = {
             chain_type,
             chain_id,
-            tx_hash: "0x5890c794096a98008f1e0d60feb93076169a1def754e4015971db8215e450ff1",
+            tx_hash: "30e929ac8ae51a9f32805a774e9cc73b5f6bb3a662ef7d1c716d69327548ec51",
             offset: 0,
             limit: 10
         };
@@ -233,13 +240,12 @@ describe("Test Access API ETH", async function () {
 
     it("getWithdrawByOrderId", async function(){
         const request:GetWithdrawByOrderIdRequest = {
-            merchant_order_id: "W1662104213630",
-            offset: 0,
-            limit: 10
+            merchant_order_id: "EU11_WD_1682331270464",
+            withFee: true
         };
         const response = await client.getWithdrawByOrderId(request);
 
-        console.info(JSON.stringify(response));
+        console.info(JSON.stringify(response, null, 2));
     });
 
     it("getWithdrawByBatchId", async function(){
@@ -249,6 +255,20 @@ describe("Test Access API ETH", async function () {
             limit: 10
         };
         const response = await client.getWithdrawByBatchId(request);
+
+        console.info(JSON.stringify(response, null, 2));
+    });
+
+    it("enquryWalletTypeBalance", async function(){
+        const request:EnquiryWalletTypeBalanceRequest = {
+            wallet_types: [3],
+            asset_names: ["OKT"]
+        };
+        const response = await client.enquiryWalletTypeBalance(request);
+
+        // for(const r of response.result){
+        //     console.info(JSON.stringify(r, null, 2));    
+        // }
 
         console.info(JSON.stringify(response, null, 2));
     });

@@ -1,4 +1,4 @@
-import { WalletManagerUtils} from 'wallet-manager-client-utils';
+import { WalletManagerUtils, WalletManagerRequestCallback} from 'wallet-manager-client-utils';
 import { Response} from 'wallet-manager-client-utils/dist/src/entities/Response';
 import { ClientConfig } from 'wallet-manager-client-utils/dist/src/entities/Config'
 
@@ -23,6 +23,10 @@ import { BatchWithdrawResult } from './entities/BatchWithdrawResult';
 import { BatchSweepRequest } from './entities/BatchSweepRequest';
 import { BatchSweepResult } from './entities/BatchSweepResult';
 
+import { EnquiryWalletTypeBalanceRequest } from './entities/EnquiryWalletTypeBalanceRequest';
+import { EnquiryWalletTypeBalanceResult } from './entities/EnquiryWalletTypeBalanceResult';
+
+
 import { AxiosInstance } from 'axios';
 
 export class WalletManagerClient{
@@ -30,8 +34,8 @@ export class WalletManagerClient{
     readonly instance:AxiosInstance;
     readonly utils:WalletManagerUtils;
 
-    constructor(privateKey:string, clientConfig:ClientConfig){
-        this.utils = new WalletManagerUtils(privateKey, clientConfig.instanceId);
+    constructor(privateKey:string, clientConfig:ClientConfig, requestCallback:WalletManagerRequestCallback = ()=>{return}){
+        this.utils = new WalletManagerUtils(privateKey, clientConfig.instanceId, requestCallback);
         this.instance = this.utils.createAxiosInstance(clientConfig.baseURL, clientConfig.contentTypeJson);
     }
 
@@ -79,13 +83,12 @@ export class WalletManagerClient{
     }
 
     async getWithdrawByOrderId(request:GetWithdrawByOrderIdRequest):Promise<Response<Operation>>{
-        const {merchant_order_id, limit, offset} = request;
+        const {merchant_order_id, withFee} = request;
         const path = `/withdraw/order/${merchant_order_id}`;
         const response = await this.instance.get(
             path, {
                 params: {
-                    limit: limit,
-                    offset: offset,
+                    withFee: withFee || false
                 }
             });
         return response.data;
@@ -103,4 +106,20 @@ export class WalletManagerClient{
             });
         return response.data;
     }
+
+    async enquiryWalletTypeBalance(request:EnquiryWalletTypeBalanceRequest):Promise<Response<EnquiryWalletTypeBalanceResult[]>>{
+        const {chain_type, chain_id, asset_names, wallet_types} = request;
+        const path = `/wallet_type_balance`;
+        const response = await this.instance.get(
+            path, {
+                params: {
+                    chain_type, 
+                    chain_id, 
+                    asset_names, 
+                    wallet_types
+                }
+            });
+        return response.data;
+    }
+    
 }
