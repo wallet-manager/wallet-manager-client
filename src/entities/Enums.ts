@@ -6,6 +6,15 @@ export enum ChainType{
     TRON = 3
 }
 
+export enum WalletType{
+    ExternalWallet = 0,
+    ClientWallet = 1,
+    HotWallet = 2,
+    InvokerWallet = 3,
+    SweepDestWallet = 4,
+    SettlementWallet = 5
+}
+
 export class ChainId{
     static readonly Default = new BigNumber('1');
     static readonly Ethereum = new BigNumber('1');
